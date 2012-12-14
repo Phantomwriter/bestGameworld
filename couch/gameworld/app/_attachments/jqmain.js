@@ -61,96 +61,72 @@ New function is below in week 3 files section
 ///////////////////Variables and Click Events for Sign-up Page////////////
 
 //Save data
-var saveData =$('submit');
+var saveData =$('#submit');
     saveData.on("click");
     
-var saveFavCardData=$('submit');
+var saveFavCardData=$('#submit');
     saveFavCardData.on("click");
 
-/*//Retrieve data
-var showDoc =$('showMem')
+///Retrieve data
+var showDoc =$('#showMem');
     showDoc.on("click");
 
-//Display links
-var displayLink = $('displayLink');
-    displayLink.on("click", getData);
-
-//Clear links
-var clearLink =$('#clear');
-    clearLink.on("click", clearLocal);
 
 //Populate Data
-var populateData = function(){
-    for (var n in json){
+var autoFillDataData = function(){
+    for (var n in JSON){
             var id = Math.floor(Math.random()*100000001);
-                localStorage.setItem(id, JSON.stringify(json[n]));
+                localStorage.setItem(id, JSON.stringify(JSON[n]));
         alert("It filled the data");
         }
     };
 
-//Get data
-var getData= function(){
-    
-        if(localStorage.length === 0){
-                alert("There's no Data in Local Storage so default data was entered");
-                poplulateData();
-    }
-        var makeDiv = $('<div id="doc"></div>');
-            makeDiv.appendTo('#showMembers');
-        var makeList = $('<ul>');
-            makeList.addClass("showMem").appendTo('#items');
-    
-        for (var i=0, len=localStorage.length; i<len;i++){
-        var eachMember =$('<li>');
-            eachMember.addClass('eachMember').appendTo('showMem');
-        var linksLi= $('<li>');
-        var key=localStorage.key(i);
-        var value=localStorage.getItem(key);
-        var obj=JSON.parse(value);
-        var makeSubList=$('<ul id="each"></ul>');
-            makeSubList.appendTo('eachMember');
-            getImage(obj.member[1], makeSubList);
-        for (var n in obj){
-            var makeSubLi=$('<li>');
-            var optSubText=obj[n][0] + " " + obj[n][1];
-                makeSubli.appendTo('#each')
-                    .HTML(optSubText);
-                linkLi.appendTo('#each');
-        }
-        makeItemLinks(localStorage.key(i), linksLi); 
-    }
-}
 
-//Edit item
+//Clear links
+var clearLocal =$('clear');
+    clearLocal.on("click", clearLocal);
+//Display links
+
+/*var displayLink = $('displayLink');
+    displayLink.on("click", getData);*/
+    
+
+
+/*//Edit item
 var editDoc= function(){
         var value = localStorage.getItem(this.key);
+        
+        
+        
         var item = JSON.parse(value);
-            $('#fname').val(doc.fname[1]);
-            $('#lname').val(doc.lname[1]);
-            $('#pword').val(doc.pword[1]);
-            $('#cpword').val(doc.cpword[1]);
-            $('#email').val(doc.email[1]);
-            $('#deviceValue').val(doc.deviceValue[1]);
-              $('#friends').val(doc.friends[1]);
-              $('#groups').val(doc.groups[1]);
-            $('#day').val(doc.day[1]);
-            $('#month').val(doc.month[1]);
-            $('#year').val(doc.year[1]);
+            $('#fname').val(item.fname[1]);
+            $('#lname').val(item.lname[1]);
+            $('#pword').val(item.pword[1]);
+            $('#cpword').val(item.cpword[1]);
+            $('#email').val(item.email[1]);
+            $('#deviceValue').val(item.deviceValue[1]);
+              $('#friends').val(item.friends[1]);
+              $('#groups').val(item.groups[1]);
+            $('#day').val(item.day[1]);
+            $('#month').val(item.month[1]);
+            $('#year').val(item.year[1]);
           var radios=$('#deviceValue').val();
         for (var i=0; i<radios.length; i++){
             if(radios[i].val() == "CellPhone" && item.deviceValue[1] =="CellPhone"){
                 radios[i].attr("checked","checked");
             }else if($(radios[i]).val() =="Tablet" && item.deviceValue[i] == "Tablet"){
                 radios[i].attr("checked","checked");
+            
+            
+            
             }
 }
         
             var editSubmit = $('#submit');
-                editSubmit.off("click", validate);
                 editSubmit.val("editContact");
                 editSubmit.on("click", saveData);
                 editSubmit.key = this.key;
-}
+};*/
         
 //Delete Item    
 var deleteItem = function (){
@@ -161,7 +137,7 @@ var deleteItem = function (){
                     window.location.reload();
                     return false;
 }
-}
+};
 
 //Clear local storage
 function clearLocal(){
@@ -179,17 +155,44 @@ function clearLocal(){
 var deviceValues = function() {
         var radios = $('input:radio[name=deviceValue]:checked').val();
             return radios;
-}
-*/
+};
+
 //ajax error callback
 $.ajaxSetup({
     timeout: 10000,
     error: function(err) {
         console.log("error", err);
     
-    }
+    
 
+//Save data
+var saveData =$('submit');
+    saveData.on("click");
+    
+var saveFavCardData=$('submit');
+    saveFavCardData.on("click");
+
+///Retrieve data
+var showDoc =$('showMem');
+    showDoc.on("click");
+
+//Display links
+var displayLink = $('displayLink');
+    displayLink.on("click", getData);
+
+//Clear links
+var clearLocal =$('#clear');
+    clearLocal.on("click", clearLocal);
+    }
 });
+
+
+
+
+
+
+
+
 
 
 
@@ -326,12 +329,13 @@ $('#newMemPage').on('pageshow', function() {
     $('#newMem').empty();
         console.log("New Memlist cleared!");
             $.each(data.rows, function(index, value){
+                    var memId = value.id; 
                     var item =(value.value || value.doc);
                         $('#newMem').append(
                             $('<li>').append(
                                 $('<a>')
-                                    .attr("href", "mem.html?mem=" + item.name)
-                                        .text(item.name)
+                                    .attr("href", "newMem.html?mem=" + memId)
+                                        .text(item.LastName)
                         )
                     );
 
@@ -363,17 +367,26 @@ var urlVars =function(){
 
 
 
-$("#newMemPage").live("pageshow", function(){
+$("#newMem2").live("pageshow", function(){
     console.log("made it to new mem list functio;");
     //just get favCards out--use brackets[]
     var mem = urlVars() ["mem"];
-    $.couch.db("gameworld").view("gameworld/mem", {
-        key: "mem:" + mem
-    });    
+    console.log(mem);
+    
+    $.couch.db("gameworld").openDoc(mem, {
+        success: function(data) {
+        console.log(data);
+    },
+    error: function(status) {
+        console.log(status);
+        
+    }
+    
 });
 
+});
 
-
+$('#newMem2').listview('refresh');
 
 
 
@@ -387,6 +400,7 @@ $('#couch').on('pageshow', function() {
         console.log("Fav Cards list cleared!");
             $.each(data.rows, function(index, value){
                     var item =(value.value || value.doc);
+                    console.log(item);
                         $('#couchFavCardsList').append(
                             $('<li>').append(
                                 $('<a>')
